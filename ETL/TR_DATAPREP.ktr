@@ -438,38 +438,8 @@
   </notepads>
   <order>
     <hop>
-      <from>Excel - Mood</from>
-      <to>Row Normaliser - Mood</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Row Normaliser - Mood</from>
-      <to>Uppercase values of mood</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Excel - Episode</from>
-      <to>Row Normalizer - Episode</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Excel - Activity</from>
-      <to>Row Normalizer - Activity</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Excel - Hours Sleep</from>
-      <to>Row Normalizer - Hours sleep</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Row Normalizer - Hours sleep</from>
       <to>Removing empty rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort keys - Mood</from>
-      <to>Merge - Wellness</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -523,11 +493,100 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>Row Normaliser - Mood</from>
+      <to>Uppercase values of mood</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Adding months</from>
+      <to>Creating correct date</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Excel - Episode</from>
+      <to>Row Normalizer - Episode</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Excel - Activity</from>
+      <to>Row Normalizer - Activity</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Excel - Hours Sleep</from>
+      <to>Row Normalizer - Hours sleep</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort keys - Mood</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Merge - Wellness</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Excel - Mood</from>
+      <to>Update type</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Update type</from>
+      <to>Adding months</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Creating correct date</from>
+      <to>Row Normaliser - Mood</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Removing duplicate columns</from>
       <to>Clean normalized data</to>
       <enabled>Y</enabled>
     </hop>
   </order>
+  <step>
+    <name>Adding months</name>
+    <type>Constant</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>MONTHS_TO_ADD</name>
+        <type>Date</type>
+        <format>yyyy/MM/dd</format>
+        <currency />
+        <decimal />
+        <group />
+        <nullif>1899/12/30</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>32</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>Clean normalized data</name>
     <type>ExcelOutput</type>
@@ -569,6 +628,36 @@
       <filename>template.xls</filename>
     </template>
     <fields>
+      <field>
+        <name>DATE</name>
+        <type>Date</type>
+        <format />
+      </field>
+      <field>
+        <name>PATIENT_CODE</name>
+        <type>String</type>
+        <format />
+      </field>
+      <field>
+        <name>EPISODE_VALUES</name>
+        <type>String</type>
+        <format />
+      </field>
+      <field>
+        <name>MOOD_VALUES</name>
+        <type>String</type>
+        <format />
+      </field>
+      <field>
+        <name>ACTIVITY_VALUES</name>
+        <type>String</type>
+        <format />
+      </field>
+      <field>
+        <name>SLEEP_VALUES</name>
+        <type>Number</type>
+        <format />
+      </field>
     </fields>
     <custom>
       <header_font_name>arial</header_font_name>
@@ -596,8 +685,49 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>544</xloc>
-      <yloc>544</yloc>
+      <xloc>992</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Creating correct date</name>
+    <type>Calculator</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>FECHA_CORRECT</field_name>
+      <calc_type>ADD_DAYS</calc_type>
+      <field_a>MONTHS_TO_ADD</field_a>
+      <field_b>FECHA</field_b>
+      <field_c />
+      <value_type>Date</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask />
+      <decimal_symbol />
+      <grouping_symbol />
+      <currency_symbol />
+    </calculation>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -642,7 +772,7 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
-        <format>yyyy/MM/dd</format>
+        <format />
         <currency />
         <decimal />
         <group />
@@ -922,8 +1052,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>304</yloc>
+      <xloc>224</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -968,7 +1098,7 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
-        <format>yyyy/MM/dd</format>
+        <format />
         <currency />
         <decimal />
         <group />
@@ -1248,8 +1378,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>208</yloc>
+      <xloc>224</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1294,7 +1424,7 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
-        <format>yyyy/MM/dd</format>
+        <format />
         <currency />
         <decimal />
         <group />
@@ -1574,8 +1704,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>400</yloc>
+      <xloc>224</xloc>
+      <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1615,12 +1745,12 @@
     <fields>
       <field>
         <name>FECHA</name>
-        <type>Date</type>
+        <type>Number</type>
         <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
-        <format>yyyy/MM/dd</format>
+        <format />
         <currency />
         <decimal />
         <group />
@@ -1900,8 +2030,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>112</yloc>
+      <xloc>224</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1936,8 +2066,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>304</yloc>
+      <xloc>768</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1953,14 +2083,14 @@
       <schema_name />
     </partitioning>
     <join_type>INNER</join_type>
-    <step1>Sort keys - Mood</step1>
-    <step2>Sort keys - Episode</step2>
+    <step1>Sort keys - Episode</step1>
+    <step2>Select values</step2>
     <keys_1>
       <key>FECHA</key>
       <key>PATIENT_CODE</key>
     </keys_1>
     <keys_2>
-      <key>FECHA</key>
+      <key>FECHA_CORRECT</key>
       <key>PATIENT_CODE</key>
     </keys_2>
     <attributes />
@@ -1972,8 +2102,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>736</xloc>
-      <yloc>208</yloc>
+      <xloc>992</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2008,8 +2138,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>736</xloc>
-      <yloc>304</yloc>
+      <xloc>992</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2034,11 +2164,11 @@
         <rename />
       </field>
       <field>
-        <name>MOOD_VALUES</name>
+        <name>EPISODE_VALUES</name>
         <rename />
       </field>
       <field>
-        <name>EPISODE_VALUES</name>
+        <name>MOOD_VALUES</name>
         <rename />
       </field>
       <field>
@@ -2060,8 +2190,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>736</xloc>
-      <yloc>480</yloc>
+      <xloc>992</xloc>
+      <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2104,8 +2234,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>400</yloc>
+      <xloc>592</xloc>
+      <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2232,8 +2362,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>240</xloc>
-      <yloc>112</yloc>
+      <xloc>880</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2360,8 +2490,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>240</xloc>
-      <yloc>304</yloc>
+      <xloc>400</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2488,8 +2618,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>240</xloc>
-      <yloc>208</yloc>
+      <xloc>496</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2616,8 +2746,48 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>240</xloc>
-      <yloc>400</yloc>
+      <xloc>416</xloc>
+      <yloc>432</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>FECHA_CORRECT</name>
+        <rename />
+      </field>
+      <field>
+        <name>PATIENT_CODE</name>
+        <rename />
+      </field>
+      <field>
+        <name>MOOD_VALUES</name>
+        <rename />
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1232</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2666,8 +2836,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>304</yloc>
+      <xloc>560</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2716,8 +2886,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>208</yloc>
+      <xloc>672</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2766,8 +2936,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>400</yloc>
+      <xloc>768</xloc>
+      <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2791,7 +2961,7 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>FECHA</name>
+        <name>FECHA_CORRECT</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -2816,8 +2986,116 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>576</xloc>
-      <yloc>112</yloc>
+      <xloc>1232</xloc>
+      <yloc>32</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Update type</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>FECHA</name>
+      </field>
+      <field>
+        <name>P1</name>
+      </field>
+      <field>
+        <name>P2</name>
+      </field>
+      <field>
+        <name>P3</name>
+      </field>
+      <field>
+        <name>P4</name>
+      </field>
+      <field>
+        <name>P5</name>
+      </field>
+      <field>
+        <name>P6</name>
+      </field>
+      <field>
+        <name>P7</name>
+      </field>
+      <field>
+        <name>P8</name>
+      </field>
+      <field>
+        <name>P9</name>
+      </field>
+      <field>
+        <name>P10</name>
+      </field>
+      <field>
+        <name>P11</name>
+      </field>
+      <field>
+        <name>P12</name>
+      </field>
+      <field>
+        <name>P13</name>
+      </field>
+      <field>
+        <name>P14</name>
+      </field>
+      <field>
+        <name>P15</name>
+      </field>
+      <field>
+        <name>P16</name>
+      </field>
+      <field>
+        <name>P17</name>
+      </field>
+      <field>
+        <name>P18</name>
+      </field>
+      <field>
+        <name>P19</name>
+      </field>
+      <field>
+        <name>P20</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>FECHA</name>
+        <rename>FECHA</rename>
+        <type>Date</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy/MM/dd</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>352</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2856,8 +3134,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>112</yloc>
+      <xloc>1072</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>TR_F_BEHAVIOR</name>
+    <name>TR_F_WELLNESS</name>
     <description />
     <extended_description />
     <trans_version />
@@ -512,11 +512,11 @@
     </hop>
     <hop>
       <from>Lookup d_date</from>
-      <to>Select Behavior values</to>
+      <to>Selecting Wellness values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select Behavior values</from>
+      <from>Selecting Wellness values</from>
       <to>Insert / update</to>
       <enabled>Y</enabled>
     </hop>
@@ -580,7 +580,7 @@
         <group />
       </field>
       <field>
-        <name>MOOD_VALUES</name>
+        <name>EPISODE_VALUES</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -592,7 +592,7 @@
         <group />
       </field>
       <field>
-        <name>EPISODE_VALUES</name>
+        <name>MOOD_VALUES</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -683,16 +683,16 @@
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema />
-      <table>f_behavior</table>
+      <table>f_wellness</table>
       <key>
-        <name>ACTIVITY_VALUES</name>
-        <field>activity_type</field>
+        <name>MOOD_VALUES</name>
+        <field>mood</field>
         <condition>=</condition>
         <name2 />
       </key>
       <key>
-        <name>SLEEP_VALUES</name>
-        <field>hour_sleep</field>
+        <name>EPISODE_VALUES</name>
+        <field>episode</field>
         <condition>=</condition>
         <name2 />
       </key>
@@ -709,13 +709,13 @@
         <name2 />
       </key>
       <value>
-        <name>activity_type</name>
-        <rename>ACTIVITY_VALUES</rename>
+        <name>mood</name>
+        <rename>MOOD_VALUES</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>hour_sleep</name>
-        <rename>SLEEP_VALUES</rename>
+        <name>episode</name>
+        <rename>EPISODE_VALUES</rename>
         <update>Y</update>
       </value>
       <value>
@@ -738,7 +738,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
+      <xloc>848</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
@@ -785,7 +785,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
+      <xloc>496</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
@@ -838,10 +838,10 @@
     </GUI>
   </step>
   <step>
-    <name>Select Behavior values</name>
+    <name>Selecting Wellness values</name>
     <type>SelectValues</type>
     <description />
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution />
     <copies>1</copies>
     <partitioning>
@@ -850,10 +850,10 @@
     </partitioning>
     <fields>
       <field>
-        <name>ACTIVITY_VALUES</name>
+        <name>MOOD_VALUES</name>
       </field>
       <field>
-        <name>SLEEP_VALUES</name>
+        <name>EPISODE_VALUES</name>
       </field>
       <field>
         <name>id_patient</name>
@@ -872,7 +872,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
+      <xloc>656</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
